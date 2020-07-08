@@ -1,0 +1,24 @@
+    # these will be replaced by the installation script
+
+    dev @dev
+    #ifconfig @ip @mask
+    port @port
+
+    # these are default for all connections
+
+    proto udp
+    mode server
+    client-to-client
+    ping-timer-rem
+    persist-key
+    persist-tun
+    tls-server
+    verb 3
+    status /var/log/openvpn/status.log
+    status-version 1
+    ca /etc/openvpn/certs/vpn-ca.pem
+    cert /etc/openvpn/certs/servercert.pem
+    key /etc/openvpn/certs/serverkey.pem
+    dh /etc/openvpn/certs/dh1024.pem
+    keepalive 15 60
+    mute 50
