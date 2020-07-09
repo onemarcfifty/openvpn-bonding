@@ -30,47 +30,15 @@ cp commonConfig   /etc/openvpn
 cp startbridge.sh /etc/openvpn
 cp stopbridge.sh  /etc/openvpn
 
-# now generate a CA and keys
+# use the provided example keys
+# the sample script calls openvpn from a non-existent directory if you do not have
+# the source packages, so we just symlink to the openvpn binary
+# this is _really_ quick and dirty - but it works ;-)
 
-touch /etc/openvpn/certs/serial
-touch /etc/openvpn/certs/index.txt
-echo "01" > /etc/openvpn/certs/serial
-
-# generate a key pair for the Certification Authority
-# you will be prompted for the password
-
-openssl genrsa -aes256 -out /etc/openvpn/certs/vpn-cakey.pem 2048
-chmod 0600 /etc/openvpn/certs/vpn-cakey.pem 
-
-# now create CA certificate
-
-openssl req -new -x509 -days 3650 -key /etc/openvpn/certs/vpn-cakey.pem -out /etc/openvpn/certs/vpn-ca.pem -set_serial 1
-
-# generate a key for the server
-
-openssl req -new -newkey rsa:1024 -out /etc/openvpn/certs/servercsr.pem -nodes -keyout /etc/openvpn/certs/serverkey.pem -days 3650
-chmod 0600 /etc/openvpn/certs/serverkey.pem 
-
-# generate and sign a certificate for the server
-
-openssl x509 -req -in /etc/openvpn/certs/servercsr.pem -out /etc/openvpn/certs/servercert.pem -CA /etc/openvpn/certs/vpn-ca.pem -CAkey /etc/openvpn/certs/vpn-cakey.pem -CAserial  /etc/openvpn/certs/serial -days 3650
-
-# create Diffie-Hellmann Parameter
-
-openssl dhparam -out /etc/openvpn/certs/dh2048.pem 2048
-
-# create a Client key for each tunnel
-
-for counter in `seq 1 $numberOfTunnels`;
-do
-    clientName=client${counter}
-     
-    # first generate a certification request and key
-    openssl req -new -newkey rsa:1024 -out /etc/openvpn/certs/$clientName.csr -nodes -keyout /etc/openvpn/certs/$clientName.pem -days 3650
-
-    # then sign the key 
-    openssl x509 -req -in /etc/openvpn/certs/$clientName.csr -out /etc/openvpn/certs/$clientName.cert.pem -CA /etc/openvpn/certs/vpn-ca.pem -CAkey /etc/openvpn/certs/vpn-cakey.pem -CAserial /etc/openvpn/certs/serial -days 3650
-done
+cd /usr/share/doc/openvpn/examples/sample-keys
+mkdir -p ../../src/openvpn/
+ln -s /usr/sbin/openvpn ../../src/openvpn/openvpn
+./gen-sample-keys.sh
 
 # now create a config file for each server instance 
 
