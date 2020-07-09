@@ -6,19 +6,8 @@
 
     # these are default for all connections
 
-    proto udp
-    mode server
-    client-to-client
-    ping-timer-rem
-    #persist-key
-    #persist-tun
-    tls-server
+    secret /etc/openvpn/ta.key
+    proto udp4
     verb 4
-    status /var/log/openvpn/status.log
-    status-version 1
-    ca /etc/openvpn/certs/ca.crt
-    cert /etc/openvpn/certs/server-dsa.crt
-    key /etc/openvpn/certs/server-dsa.key
-    dh /etc/openvpn/certs/dh2048.pem
     keepalive 15 60
     mute 50

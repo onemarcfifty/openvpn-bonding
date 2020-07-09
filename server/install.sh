@@ -23,12 +23,6 @@
 apt -y install openvpn openssl bridge-utils sed
 # mkdir -p /etc/openvpn/certs
 
-# we will use the sample keys from the openvpn package
-ln -s /usr/share/doc/openvpn/examples/sample-keys/sample-ca /etc/openvpn/certs
-
-# copy all necessary files into the openvpn config
-# directory
-
 cp commonConfig   /etc/openvpn
 cp startbridge.sh /etc/openvpn
 cp stopbridge.sh  /etc/openvpn
@@ -63,16 +57,7 @@ do
 done
 
 
-# use the provided example keys
-# the sample script calls openvpn from a non-existent directory if you do not have
-# the source packages, so we just symlink to the openvpn binary
-# this is _really_ quick and dirty - but it works ;-)
+# we will not use TLS etc. for this exercise but rather simple
+# secret key authentication
 
-cd /usr/share/doc/openvpn/examples/sample-keys
-mkdir -p ../../src/openvpn/
-ln -s /usr/sbin/openvpn ../../src/openvpn/openvpn
-gunzip gen-sample-keys.sh.gz
-./gen-sample-keys.sh
-
-cd /etc/openvpn
-
+openvpn --genkey --secret /etc/openvpn/ta.key
