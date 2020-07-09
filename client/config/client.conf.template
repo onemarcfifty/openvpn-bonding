@@ -5,21 +5,21 @@
     port @port
     remote @server
     #route @vpnServerPrivateIP @mask 192.168.100.2
-    key /etc/openvpn/@keyname
-    tls-remote @server
+    key /etc/openvpn/certs/@keyname
+    #tls-remote @server
 
     # these are default for all connections
 
 
     proto udp
-    mode client
+    #mode client
     float
     tls-client
     persist-key
     persist-tun
     ping 15
     verb 9
-    ca /etc/openvpn/vpn-ca.pem
-    cert /etc/openvpn/client1_cert.pem
+    ca /etc/openvpn/certs/vpn-ca.pem
+    cert /etc/openvpn/certs/client1.cert.pem
     status /var/log/openvpn/status.log
     status-version 1

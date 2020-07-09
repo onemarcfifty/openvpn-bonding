@@ -57,13 +57,13 @@ openssl x509 -req -in /etc/openvpn/certs/servercsr.pem -out /etc/openvpn/certs/s
 
 # create Diffie-Hellmann Parameter
 
-openssl dhparam -out /etc/openvpn/certs/dh1024.pem 1024
+openssl dhparam -out /etc/openvpn/certs/dh2048.pem 2048
 
 # create a Client key for each tunnel
 
 for counter in `seq 1 $numberOfTunnels`;
 do
-    clientName=client1${counter}
+    clientName=client${counter}
      
     # first generate a certification request and key
     openssl req -new -newkey rsa:1024 -out /etc/openvpn/certs/$clientName.csr -nodes -keyout /etc/openvpn/certs/$clientName.pem -days 3650

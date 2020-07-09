@@ -19,6 +19,6 @@
     ca /etc/openvpn/certs/vpn-ca.pem
     cert /etc/openvpn/certs/servercert.pem
     key /etc/openvpn/certs/serverkey.pem
-    dh /etc/openvpn/certs/dh1024.pem
+    dh /etc/openvpn/certs/dh2048.pem
     keepalive 15 60
     mute 50

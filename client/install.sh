@@ -26,8 +26,8 @@ mkdir -p /etc/openvpn/certs
 # directory
 
 cp commonConfig   /etc/openvpn
-cp startbridge.sh /etc/openvpn
-cp stopbridge.sh  /etc/openvpn
+#cp startbridge.sh /etc/openvpn
+#cp stopbridge.sh  /etc/openvpn
 
 for counter in `seq 1 $numberOfTunnels`;
 do
@@ -42,7 +42,7 @@ do
     sed -i s/@dev/tap${counter}/g          $vpnConfigFile
     sed -i s/@keyname/client${counter}.pem/g  $vpnConfigFile
     sed -i s/@server/${vpnServer}/g $vpnConfigFile
-    
+
     # we dont need ip addresses for the tap interfaces as they are bridged
 
 #    sed -i s/@ip/"${ipTrunk}.${counter}"/g $vpnConfigFile
