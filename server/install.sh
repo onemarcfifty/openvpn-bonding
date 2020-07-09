@@ -24,7 +24,7 @@ apt -y install openvpn openssl bridge-utils sed
 # mkdir -p /etc/openvpn/certs
 
 # we will use the sample keys from the openvpn package
-ln -s /usr/share/doc/openvpn/examples/sample-keys /etc/openvpn/certs
+ln -s /usr/share/doc/openvpn/examples/sample-keys/sample-ca /etc/openvpn/certs
 
 # copy all necessary files into the openvpn config
 # directory

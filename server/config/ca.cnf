@@ -1,0 +1,22 @@
+[ req ]
+default_bits            = 2048                  # default strength of client certificates
+default_md              = sha2
+encrypt_key             = yes                   # "no" is equivalent to -nodes
+prompt                  = no
+string_mask             = utf8only
+distinguished_name      = vpn_root_ca     # root certificate name
+req_extensions          = req_cert_extensions
+
+[ ca_distinguished_name ]
+# root certificate name
+countryName             = NA
+stateOrProvinceName     = someState
+localityName            = someCity
+organizationName        = example.com
+#organizationalUnitName  = My Department Name
+commonName              = OpenVPN-CA
+#emailAddress            = hostmaster@example.org   # email in DN is deprecated, use subjectAltName
+
+[ req_cert_extensions ]
+# nsCertType              = server
+subjectAltName          = email:you@example.com
