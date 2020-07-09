@@ -45,8 +45,8 @@ do
 
     # we dont need ip addresses for the tap interfaces as they are bridged
 
-#    sed -i s/@ip/"${ipTrunk}.${counter}"/g $vpnConfigFile
-#    sed -i s/@mask/$ipMask/g $vpnConfigFile
+    sed -i s/@ip/"${ipTrunk}.${counter}"/g $vpnConfigFile
+    sed -i s/@mask/$ipMask/g $vpnConfigFile
 
     # we replace the @port placeholder with ports 1191, 1192, 1193 and so on
 
