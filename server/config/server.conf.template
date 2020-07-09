@@ -16,9 +16,9 @@
     verb 3
     status /var/log/openvpn/status.log
     status-version 1
-    ca /etc/openvpn/certs/vpn-ca.pem
-    cert /etc/openvpn/certs/servercert.pem
-    key /etc/openvpn/certs/serverkey.pem
+    ca /etc/openvpn/certs/ca.crt
+    cert /etc/openvpn/certs/server-dsa.crt
+    key /etc/openvpn/certs/server-dsa.key
     dh /etc/openvpn/certs/dh2048.pem
     keepalive 15 60
     mute 50
