@@ -70,6 +70,7 @@ do
 
     # then sign the key 
     openssl x509 -req -in /etc/openvpn/certs/$clientName.csr -out /etc/openvpn/certs/$clientName.cert.pem -CA /etc/openvpn/certs/vpn-ca.pem -CAkey /etc/openvpn/certs/vpn-cakey.pem -CAserial /etc/openvpn/certs/serial -days 3650
+done
 
 # now create a config file for each server instance 
 
