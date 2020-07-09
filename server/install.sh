@@ -30,15 +30,6 @@ cp commonConfig   /etc/openvpn
 cp startbridge.sh /etc/openvpn
 cp stopbridge.sh  /etc/openvpn
 
-# use the provided example keys
-# the sample script calls openvpn from a non-existent directory if you do not have
-# the source packages, so we just symlink to the openvpn binary
-# this is _really_ quick and dirty - but it works ;-)
-
-cd /usr/share/doc/openvpn/examples/sample-keys
-mkdir -p ../../src/openvpn/
-ln -s /usr/sbin/openvpn ../../src/openvpn/openvpn
-./gen-sample-keys.sh
 
 # now create a config file for each server instance 
 
@@ -69,4 +60,15 @@ do
 done
 
 
+# use the provided example keys
+# the sample script calls openvpn from a non-existent directory if you do not have
+# the source packages, so we just symlink to the openvpn binary
+# this is _really_ quick and dirty - but it works ;-)
+
+cd /usr/share/doc/openvpn/examples/sample-keys
+mkdir -p ../../src/openvpn/
+ln -s /usr/sbin/openvpn ../../src/openvpn/openvpn
+./gen-sample-keys.sh
+
+cd /etc/openvpn
 
