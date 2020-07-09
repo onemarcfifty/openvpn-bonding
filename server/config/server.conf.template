@@ -7,11 +7,11 @@
     # these are default for all connections
 
     proto udp
-    mode server
+    #mode server
     client-to-client
     ping-timer-rem
-    persist-key
-    persist-tun
+    #persist-key
+    #persist-tun
     tls-server
     verb 3
     status /var/log/openvpn/status.log
