@@ -71,6 +71,7 @@ done
 cd /usr/share/doc/openvpn/examples/sample-keys
 mkdir -p ../../src/openvpn/
 ln -s /usr/sbin/openvpn ../../src/openvpn/openvpn
+gunzip gen-sample-keys.sh.gz
 ./gen-sample-keys.sh
 
 cd /etc/openvpn

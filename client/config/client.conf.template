@@ -5,7 +5,9 @@
     port @port
     remote @server
     #route @vpnServerPrivateIP @mask 192.168.100.2
-    key /etc/openvpn/certs/@keyname
+    cert /etc/openvpn/certs/client.crt
+    key /etc/openvpn/certs/client.key
+    #key /etc/openvpn/certs/@keyname
 
     # these are default for all connections
 
@@ -15,8 +17,7 @@
     tls-client
     ping 15
     verb 4
-    ca /etc/openvpn/certs/vpn-ca.pem
-    cert /etc/openvpn/certs/client1.cert.pem
+    ca /etc/openvpn/certs/ca.crt
     status /var/log/openvpn/status.log
     status-version 1
 
