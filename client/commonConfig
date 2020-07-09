@@ -4,7 +4,7 @@ bridgeInterface=br0
 ipTrunk="10.8.0"
 ipMask="255.255.255.0"
 
-bridgeIP="${ipTrunk}.254"
+bridgeIP="${ipTrunk}.253"
 
 vpnServer=myVPNServer
 
