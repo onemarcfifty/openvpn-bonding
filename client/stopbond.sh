@@ -2,20 +2,23 @@
 
 # #############################################
 #
-# stopbridge.sh
+# stopbond.sh
 #
+# disconnects the VPN,
 # removes the tap devices 
-# and the bridge
-# make sure you have bridge-utils installed
-# (apt install bridge-utils)
+# and the bond interface
 #
 # #############################################
 
 # include the common settings
 . /etc/openvpn/commonConfig
 
-ifconfig $bridgeInterface down
-brctl delbr $bridgeInterface
+# shut down and delete the bonded interface
+
+ip link set $bondInterface down
+ip link del $bondInterface
+
+# disconnect the VPN connections and remove the tap interfaces
 
 for i in `seq 1 $numberOfTunnels`;
 do

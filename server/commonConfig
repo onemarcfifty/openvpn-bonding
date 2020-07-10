@@ -1,9 +1,9 @@
 numberOfTunnels=4
 
-bridgeInterface=br0
+bondInterface=bond0
 ipTrunk="10.8.0"
 ipMask="255.255.255.0"
 
-bridgeIP="${ipTrunk}.254"
+bondIP="${ipTrunk}.254"
 
 

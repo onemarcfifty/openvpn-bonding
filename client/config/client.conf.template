@@ -5,6 +5,8 @@
     port @port
     remote @server
 
+    # these are default for all connections
+
     secret /etc/openvpn/ta.key
     proto udp4
     ping 15

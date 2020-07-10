@@ -4,13 +4,11 @@
 #
 # install.sh - run as root.
 #
-# installs openvpn, openssl and bridge-utils
+# installs openvpn, openssl, bonding
+# drivers and also bridge-utils
 #
-# creates a Certification Authority (CA)
-# and all necessary keys and certs for one server
-# and 4 clients
-#
-# creates 4 server configs with tap bridging
+# creates a secret key
+# creates 4 server configs with tap BONDING
 #
 # #############################################
 
@@ -20,7 +18,9 @@
 
 . commonConfig
 
-apt -y install openvpn openssl bridge-utils sed
+# first install the necessary software
+
+apt update && apt -y install openvpn openssl bridge-utils sed
 # mkdir -p /etc/openvpn/certs
 
 cp commonConfig   /etc/openvpn

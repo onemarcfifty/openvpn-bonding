@@ -4,6 +4,7 @@
     #ifconfig @ip @mask
     port @port
 
+
     # these are default for all connections
 
     secret /etc/openvpn/ta.key
