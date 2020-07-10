@@ -26,8 +26,8 @@ mkdir -p /etc/openvpn/certs
 # directory
 
 cp commonConfig   /etc/openvpn
-#cp startbridge.sh /etc/openvpn
-#cp stopbridge.sh  /etc/openvpn
+cp startbridge.sh /etc/openvpn
+cp stopbridge.sh  /etc/openvpn
 
 for counter in `seq 1 $numberOfTunnels`;
 do
