@@ -43,3 +43,15 @@ done
 # last but not least bring up the bonded interface
 
 ip link set $bondInterface up mtu 1440
+
+# now find the WAN interface
+
+export OUR_OWN_IP=`sudo -u nobody curl -s ipinfo.io/ip`
+readarray -d " " -t templine <<< $(ip -br addr | grep $OUR_OWN_IP)
+export OUR_WAN_INTERFACE=${templine[0]}
+
+# now add the masquerading rules
+
+iptables -A FORWARD -i bond0 -j ACCEPT
+iptables -A FORWARD -o bond0 -j ACCEPT
+iptables -t nat -A POSTROUTING -o $OUR_WAN_INTERFACE -j MASQUERADE
