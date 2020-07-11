@@ -54,18 +54,28 @@ do
     echo "adding routing table vpn${i}"
     echo Tunnel Interface $i is ${!tunnelInterface}
 
+    # let'S comment out the rule in the iproute2 routing table
+
+    sed -i s/"^#1${i} vpn${i}"/"1${i} vpn${i}"/g /etc/iproute2/rt_tables
+
     # we need to find the ip address of this interface
 
-    readarray -d " " -t templine <<< $(ip -br addr | grep $tunnelInterface)
-    $tunnelInterfaceIP=${templine[2]}
-    echo "with IP address $tunnelInterfaceIP"
+    #readarray -d " " -t templine <<< $(ip -br addr | grep $tunnelInterface)
+    readarray -td " " templine <<< $(ip -br addr | grep ${!tunnelInterface} | sed  's/ \+/ /g' )
+    tunnelInterfaceIP=${templine[2]}
+    echo "with IP address ${tunnelInterfaceIP}"
 
     # now we add a rule for this interface
 
     ip rule add pref 10 from $tunnelInterfaceIP table "vpn$i"
-    ip route add default dev $tunnelInterface table "vpn$i"
+    ip route add default dev ${!tunnelInterface} table "vpn$i"
     #ip route add 192.168.10.0/24 dev eth1 scope link table dsl1
- 
+
+    # before we start the VPN connection, we need to make sure that
+    # each connection binds to the right interface
+
+    sed -i /^local.*/d $configFileName
+    echo "local $tunnelInterfaceIP" >>$configFileName
 
 done
 echo "###########################################"
