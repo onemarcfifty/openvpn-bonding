@@ -59,5 +59,15 @@ done
 
 # we will not use TLS etc. for this exercise but rather simple
 # secret key authentication
+# we only generate a new key if none is present.
+# if a ta.key exists, we will use the existing one
 
-openvpn --genkey --secret /etc/openvpn/ta.key
+echo "##############################################"
+
+[ -f /etc/openvpn/ta.key ] && echo "Keyfile exists - unchanged." || \
+(
+  echo "Keyfile does not exist - generating new one"
+  openvpn --genkey --secret /etc/openvpn/ta.key
+)
+
+echo "##############################################"

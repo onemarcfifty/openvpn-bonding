@@ -1,4 +1,4 @@
-numberOfTunnels=4
+numberOfTunnels=2
 
 bondInterface=bond0
 ipTrunk="10.8.0"
