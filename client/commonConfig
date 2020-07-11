@@ -1,12 +1,23 @@
-numberOfTunnels=4
+# configuration for the client bond scripts
+# change the number of tunnels here
+# and also you might need to change the interface names
 
-bondInterface=bond0
+numberOfTunnels=2
 
-ipTrunk="10.8.0"
-ipMask="255.255.255.0"
+tunnelInterface1=wlan0
+tunnelInterface2=wlan1
+tunnelInterface3=eth0
+tunnelInterface4=eth1
 
-bondIP="${ipTrunk}.253"
+# you will need to change this as well.
+# this is the name or IP address of your VPN Server
+# alternatively you can just make an entry in /etc/hosts
 
 vpnServer=myVPNServer
 
+# You probably do not need to change any of these
 
+bondInterface=bond0
+ipTrunk="10.8.0"
+ipMask="255.255.255.0"
+bondIP="${ipTrunk}.253"

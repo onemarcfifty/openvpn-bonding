@@ -53,7 +53,29 @@ do
     # enable the corresponding system unit
 
     systemctl enable openvpn-client@client${counter}.service
+
+    # now add a routing table for each interface
+    # but keep it commented out until the bond is actually started
+    # we will start enumerating the routing tables at 11,
+    # i.e. add 10 to the number of the table
+    # so this will result in #11 vpn1, #12 vpn2 and so on
+    # needed to make this a bit more complicated because someone
+    # might run the install multiple times
+
+    # case 1 - the table already exists, then we comment it out
+    if grep "^1${counter} vpn${counter}" /etc/iproute2/rt_tables  
+    then
+        sed -i s/"^1${counter} vpn${counter}"/"#1${counter} vpn${counter}"/g /etc/iproute2/rt_tables
+    else    
+        # case 2 - the table does not exist, then we add it
+        if ! grep "1${counter}.*vpn${counter}" /etc/iproute2/rt_tables
+        then
+          echo "#1${counter} vpn${counter}" >>/etc/iproute2/rt_tables
+        fi
+    fi
 done
 
+echo "the routing table is as follows:"
+cat /etc/iproute2/rt_tables
 
 

@@ -33,6 +33,18 @@ do
     ip link set tap${i} master $bondInterface
 done
 
+# now add the routing tables
+
+for i in `seq 1 $numberOfTunnels`;
+do
+    tunnelInterface="tunnelInterface$i"
+    echo "###########################################"
+    echo "adding routing table vpn${i}"
+    echo Tunnel Interface $i is ${!tunnelInterface}
+done
+echo "###########################################"
+
+
 # then start the VPN connections
 
 for i in `seq 1 $numberOfTunnels`;
