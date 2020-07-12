@@ -65,31 +65,35 @@ do
     tunnelInterfaceIP=${templine[2]}
     echo "with IP address ${tunnelInterfaceIP}"
 
+
+
+    # let's read out the default gateway from the main table
+
+    readarray -td " " templine <<< $(ip -br route |grep ${!tunnelInterface} |grep default)
+    tunnelInterfaceGW=${templine[2]}
+
     # now we add a rule for this interface
 
     ip rule add pref 10 from $tunnelInterfaceIP table "vpn$i"
-    ip route add default dev ${!tunnelInterface} table "vpn$i"
+    ip route add default via $tunnelInterfaceGW dev ${!tunnelInterface} table "vpn$i"
     #ip route add 192.168.10.0/24 dev eth1 scope link table dsl1
 
     # before we start the VPN connection, we need to make sure that
     # each connection binds to the right interface
 
     sed -i /^local.*/d $configFileName
-    echo "local $tunnelInterfaceIP" >>$configFileName
+    echo "local $tunnelInterfaceIP" | sed s@/.*@@g >>$configFileName
+
+    # now start openvpn as a daemon
+
+    openvpn --daemon --config $configFileName
 
 done
 echo "###########################################"
 
 ip route flush cache
-#/usr/local/bin/gw bond0
-
-# then start the VPN connections
-
-for i in `seq 1 $numberOfTunnels`;
-do
-    systemctl start openvpn-client@client${i}.service
-done
 
 # last but not least bring up the bonded interface
-
 ip link set $bondInterface up mtu 1440
+# now change the default route for the whole system to the bond interface
+ip route add default via $remoteBondIP metric 1

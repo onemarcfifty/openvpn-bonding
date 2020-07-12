@@ -52,7 +52,10 @@ do
 
     # enable the corresponding system unit
 
-    systemctl enable openvpn-client@client${counter}.service
+    #systemctl enable openvpn-client@client${counter}.service
+    # (had to change it as systemctl calls openvpn with nobind option
+    # but we have to bind to specific interfaces)
+
 
     # now add a routing table for each interface
     # but keep it commented out until the bond is actually started

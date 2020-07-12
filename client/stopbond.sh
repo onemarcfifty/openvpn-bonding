@@ -20,8 +20,15 @@ ip link del $bondInterface
 
 # disconnect the VPN connections and remove the tap interfaces
 
+killall openvpn
+
 for i in `seq 1 $numberOfTunnels`;
 do
-    systemctl stop openvpn-client@client${i}.service
+#    systemctl stop openvpn-client@client${i}.service
+
+    ip route del default table "vpn$i"
+    ip rule del table "vpn$i"
     openvpn --rmtun --dev tap${i}
 done
+
+echo "please up/down your default interface to restore routes etc"
