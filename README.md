@@ -10,5 +10,3 @@ Find all details on [my youtube channel](https://www.youtube.com/channel/UCG5Ph9
 
 The work is greatly inspired by [this article on serverfault by legolas108](https://serverfault.com/questions/977589/how-to-bond-two-multiple-internet-connections-for-increased-speed-and-failover)
 
-readarray -d " " -t templine <<< $(ip -br addr | grep $OUR_OWN_IP)
-export OUR_INTERFACE=${templine[0]}
