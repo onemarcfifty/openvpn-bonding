@@ -70,4 +70,13 @@ echo "##############################################"
   openvpn --genkey --secret /etc/openvpn/ta.key
 )
 
-echo "##############################################"
+echo "# #############################################"
+echo "# below is your secret key - you need to copy"
+echo "# this onto your client into the file"
+echo "# /etc/openvpn/ta.key"
+echo "# #############################################"
+
+cat /etc/openvpn/ta.key
+
+echo "# #############################################"
+echo "# #############################################"
