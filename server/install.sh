@@ -56,6 +56,12 @@ do
     systemctl enable openvpn-server@server${counter}.service
 done
 
+# enable ip4 forwarding with sysctl
+sysctl -w net.ipv4.ip_forward=1
+
+# --- print out the content of sysctl.conf
+sysctl -p
+
 
 # we will not use TLS etc. for this exercise but rather simple
 # secret key authentication
