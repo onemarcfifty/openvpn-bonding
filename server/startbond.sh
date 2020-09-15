@@ -70,6 +70,6 @@ fi
 
 # now add the masquerading rules
 
-#iptables -A FORWARD -i bond0 -j ACCEPT
-#iptables -A FORWARD -o bond0 -j ACCEPT
-#iptables -t nat -A POSTROUTING -o $OUR_WAN_INTERFACE -j MASQUERADE
+iptables -A FORWARD -i bond0 -j ACCEPT
+iptables -A FORWARD -o bond0 -j ACCEPT
+iptables -t nat -A POSTROUTING -o $OUR_WAN_INTERFACE -j MASQUERADE
