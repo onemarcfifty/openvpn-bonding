@@ -10,3 +10,5 @@ Find all details on [my youtube channel](https://www.youtube.com/channel/UCG5Ph9
 
 The work is greatly inspired by [this article on serverfault by legolas108](https://serverfault.com/questions/977589/how-to-bond-two-multiple-internet-connections-for-increased-speed-and-failover)
 
+IMPORTANT: Please note that this works only for IP V4 at the moment
+IP V6 is future work
