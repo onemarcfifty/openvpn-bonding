@@ -1,0 +1,18 @@
+    # these will be replaced by the installation script
+
+    dev @dev
+    #ifconfig @ip @mask
+    port @port
+    remote @server
+
+    # these are default for all connections
+
+    # change: for better performance on slow lines
+    # we switch off encryption here
+
+    cipher none
+
+    secret /etc/openvpn/ta.key
+    proto udp4
+    ping 15
+    verb 4
