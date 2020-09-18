@@ -7,6 +7,11 @@
 
     # these are default for all connections
 
+    # change: for better performance on slow lines
+    # we switch off encryption here
+
+    cipher none
+
     secret /etc/openvpn/ta.key
     proto udp4
     ping 15
