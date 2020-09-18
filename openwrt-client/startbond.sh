@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 
 # #############################################
 #
@@ -51,12 +51,12 @@ do
 
     # first read out the interface name from the config section
 
-    tunnelInterface="tunnelInterface$i"
+    eval tunnelInterface=\$tunnelInterface${i}
     configFileName="/etc/openvpn/client/client${i}.conf"
 
     echo "###########################################"
     echo "adding routing table vpn${i}"
-    echo Tunnel Interface $i is ${!tunnelInterface}
+    echo "Tunnel Interface $i is ${tunnelInterface}"
 
     # let'S comment out the rule in the iproute2 routing table
 
@@ -64,23 +64,23 @@ do
 
     # we need to find the ip address of this interface
 
-    #readarray -d " " -t templine <<< $(ip -br addr | grep $tunnelInterface)
-    readarray -td " " templine <<< $(ip -br addr | grep ${!tunnelInterface} | sed  's/ \+/ /g' )
-    tunnelInterfaceIP=${templine[2]}
-    echo "with IP address ${tunnelInterfaceIP}"
+#   readarray -d " " -t templine <<< $(ip -br addr | grep $tunnelInterface)
 
-
+    tunnelInterfaceIP=$(ip route |grep "default.*${tunnelInterface} " | sed 's/.*\ src\ //g' |cut -d ' ' -f 1)
 
     # let's read out the default gateway from the main table
 
-    readarray -td " " templine <<< $(ip -br route |grep ${!tunnelInterface} |grep default)
-    tunnelInterfaceGW=${templine[2]}
+#    readarray -td " " templine <<< $(ip -br route |grep ${!tunnelInterface} |grep default)
+#    tunnelInterfaceGW=${templine[2]}
+    tunnelInterfaceGW=$(ip route |grep "default.*${tunnelInterface} " | sed 's/.*\ via\ //g' |cut -d ' ' -f 1)
+
+    echo "TunnelInterfaceIP $TunnelInterfaceIP"
+    echo "TunnelInterfaceGW $TunnelInterfaceGW"
 
     # now we add a rule for this interface
 
     ip rule add pref 10 from $tunnelInterfaceIP table "vpn$i"
-    ip route add default via $tunnelInterfaceGW dev ${!tunnelInterface} table "vpn$i"
-    #ip route add 192.168.10.0/24 dev eth1 scope link table dsl1
+    ip route add default via $tunnelInterfaceGW dev ${tunnelInterface} table "vpn$i"
 
     # before we start the VPN connection, we need to make sure that
     # each connection binds to the right interface

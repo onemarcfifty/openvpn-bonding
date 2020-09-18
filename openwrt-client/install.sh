@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 
 # #############################################
 #
@@ -17,16 +17,19 @@
 # the commonConfig file and the start/stop bridge files 
 # are located
 
-. commonConfig
+. ./commonConfig
 
-apt update && apt -y install openvpn openssl bridge-utils sed
+#apt update && apt -y install openvpn openssl bridge-utils sed
+opkg update && opkg install openvpn-openssl luci-app-openvpn kmod-bonding
 
 # copy all necessary files into the openvpn config
 # directory
 
-cp commonConfig   /etc/openvpn
-cp startbond.sh /etc/openvpn
-cp stopbond.sh  /etc/openvpn
+cp ./commonConfig   /etc/openvpn
+cp ./startbond.sh /etc/openvpn
+cp ./stopbond.sh  /etc/openvpn
+
+mkdir -p /etc/openvpn/client
 
 for counter in `seq 1 $numberOfTunnels`;
 do
