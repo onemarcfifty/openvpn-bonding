@@ -74,8 +74,8 @@ do
 #    tunnelInterfaceGW=${templine[2]}
     tunnelInterfaceGW=$(ip route |grep "default.*${tunnelInterface} " | sed 's/.*\ via\ //g' |cut -d ' ' -f 1)
 
-    echo "TunnelInterfaceIP $TunnelInterfaceIP"
-    echo "TunnelInterfaceGW $TunnelInterfaceGW"
+    echo "TunnelInterfaceIP $tunnelInterfaceIP"
+    echo "TunnelInterfaceGW $tunnelInterfaceGW"
 
     # now we add a rule for this interface
 
