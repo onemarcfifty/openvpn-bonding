@@ -20,8 +20,12 @@ ip link del $bondInterface
 
 # disconnect the VPN connections and remove the tap interfaces
 
+# just kill all openvpn instances
+
+kill `pidof openvpn`
+
 for i in `seq 1 $numberOfTunnels`;
 do
-    systemctl stop openvpn-server@server${i}.service
+#    systemctl stop openvpn-server@server${i}.service
     openvpn --rmtun --dev tap${i}
 done

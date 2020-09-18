@@ -41,7 +41,8 @@ done
 
 for i in `seq 1 $numberOfTunnels`;
 do
-    systemctl start openvpn-server@server${i}.service
+#    systemctl start openvpn-server@server${i}.service
+    openvpn --config /etc/openvpn/server/server${i}.conf --daemon
 done
 
 # last but not least bring up the bonded interface
