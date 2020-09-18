@@ -25,10 +25,6 @@ ip link set bond0 down
 sleep 2
 echo $bondingMode > /sys/class/net/${bondInterface}/bonding/mode
 
-# assign it the bondIP
-
-ip addr add ${bondIP}/24 dev $bondInterface
-
 # now create the tap interfaces and enslave them to 
 # the bond interface
 
@@ -79,3 +75,11 @@ fi
 iptables -A FORWARD -i bond0 -j ACCEPT
 iptables -A FORWARD -o bond0 -j ACCEPT
 iptables -t nat -A POSTROUTING -o $OUR_WAN_INTERFACE -j MASQUERADE
+
+# now bring the bond interface up
+
+ip link set bond0 up
+
+# assign it the bondIP
+
+ip addr add ${bondIP}/24 dev $bondInterface
