@@ -20,6 +20,10 @@ modprobe bonding
 
 ip link add $bondInterface type bond
 
+# define the bonding mode
+
+echo $bondingMode > /sys/class/net/${bondInterface}/bonding/mode
+
 # assign it the bondIP
 
 ip addr add ${bondIP}/24 dev $bondInterface
