@@ -21,7 +21,7 @@ modprobe bonding
 ip link add $bondInterface type bond
 
 # define the bonding mode
-
+ip link set bond0 down
 echo $bondingMode > /sys/class/net/${bondInterface}/bonding/mode
 
 # assign it the bondIP
