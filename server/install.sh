@@ -22,6 +22,7 @@
 
 apt update && apt -y install openvpn openssl bridge-utils sed
 # mkdir -p /etc/openvpn/certs
+mkdir -p /etc/openvpn/server
 
 cp commonConfig   /etc/openvpn
 cp startbond.sh /etc/openvpn
@@ -53,7 +54,20 @@ do
 
     # enable the corresponding system unit
 
-    systemctl enable openvpn-server@server${counter}.service
+    # enable the corresponding system unit
+    # (removed for downwards compatibility and also increased compatibility
+    # with systems not using systemd)
+    # actually if someone has used older versions
+    # then we need to check and disable
+
+    #systemctl enable openvpn-server@server${counter}.service    systemctl enable openvpn-server@server${counter}.service
+
+    if (systemctl is-enabled openvpn-server@server${counter}.service); then 
+      systemctl disable openvpn-server@server${counter}.service
+    fi
+
+    # (we will run the openvpn command explicitely with the --daemon option
+    # from now on)
 done
 
 # enable ip4 forwarding with sysctl
