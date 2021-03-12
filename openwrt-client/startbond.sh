@@ -64,15 +64,11 @@ do
 
     # we need to find the ip address of this interface
 
-#   readarray -d " " -t templine <<< $(ip -br addr | grep $tunnelInterface)
-
-    tunnelInterfaceIP=$(ip route |grep "default.*${tunnelInterface} " | sed 's/.*\ src\ //g' |cut -d ' ' -f 1)
+    tunnelInterfaceIP=$(ip a show ${tunnelInterface} | grep -m 1 inet | awk '{print $2}' | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
 
     # let's read out the default gateway from the main table
 
-#    readarray -td " " templine <<< $(ip -br route |grep ${!tunnelInterface} |grep default)
-#    tunnelInterfaceGW=${templine[2]}
-    tunnelInterfaceGW=$(ip route |grep "default.*${tunnelInterface} " | sed 's/.*\ via\ //g' |cut -d ' ' -f 1)
+    tunnelInterfaceGW=$(ip r | grep 'default.*'${tunnelInterface} | awk '{print $3}')
 
     echo "TunnelInterfaceIP $tunnelInterfaceIP"
     echo "TunnelInterfaceGW $tunnelInterfaceGW"
