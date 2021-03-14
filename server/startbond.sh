@@ -70,6 +70,10 @@ if [ ${#OUR_WAN_INTERFACE} -le 2 ]; then
     echo "WAN Interface is now: $OUR_WAN_INTERFACE"
 fi
 
+# quick fix : IP V4 forwarding is not permanent
+
+sysctl -w net.ipv4.ip_forward=1
+
 # now add the masquerading rules
 
 iptables -A FORWARD -i bond0 -j ACCEPT
