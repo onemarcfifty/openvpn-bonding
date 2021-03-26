@@ -21,7 +21,7 @@ modprobe bonding
 ip link add $bondInterface type bond
 
 # define the bonding mode
-ip link set bond0 down
+ip link set "$bondInterface" down
 sleep 2
 echo $bondingMode > /sys/class/net/${bondInterface}/bonding/mode
 
@@ -76,13 +76,13 @@ sysctl -w net.ipv4.ip_forward=1
 
 # now add the masquerading rules
 
-iptables -A FORWARD -i bond0 -j ACCEPT
-iptables -A FORWARD -o bond0 -j ACCEPT
+iptables -A FORWARD -i "$bondInterface" -j ACCEPT
+iptables -A FORWARD -o "$bondInterface" -j ACCEPT
 iptables -t nat -A POSTROUTING -o $OUR_WAN_INTERFACE -j MASQUERADE
 
 # now bring the bond interface up
 
-ip link set bond0 up
+ip link set "$bondInterface" up
 
 # assign it the bondIP
 
