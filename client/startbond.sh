@@ -65,7 +65,7 @@ do
     # read default gateway from the main table
     
     readarray -td " " templine <<< $(ip -br route | grep ${!tunnelInterface} | grep default)
-    tunnelInterfaceGW=${templine[2]}8
+    tunnelInterfaceGW=${templine[2]}
     
     # check if default gateway is a ppp interface and modify it accordingly (bug fix)
     
