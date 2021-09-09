@@ -105,4 +105,4 @@ ip route flush cache
 # last but not least bring up the bonded interface
 ip link set $bondInterface up mtu 1440
 # now change the default route for the whole system to the bond interface
-ip route repl default via $remoteBondIP metric 1
+ip route repl default via $remoteBondIP
