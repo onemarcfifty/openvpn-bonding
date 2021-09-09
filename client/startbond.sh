@@ -73,8 +73,13 @@ do
 
     # let's read out the default gateway from the main table
 
-    readarray -td " " templine <<< $(ip -br route |grep ${!tunnelInterface} |grep default)
+    readarray -td " " templine <<< $(ip -br route | grep ${!tunnelInterface} | grep default)
     tunnelInterfaceGW=${templine[2]}
+    if [[ $tunnelInterfaceGW == ppp* ]]
+    then
+        readarray -td " " templine <<< $(ip -br route | grep ${!tunnelInterface} | grep src)
+        tunnelInterfaceGW=${templine[0]}
+    fi
 
     # now we add a rule for this interface
 
@@ -100,4 +105,4 @@ ip route flush cache
 # last but not least bring up the bonded interface
 ip link set $bondInterface up mtu 1440
 # now change the default route for the whole system to the bond interface
-ip route add default via $remoteBondIP metric 1
+ip route repl default via $remoteBondIP metric 1
