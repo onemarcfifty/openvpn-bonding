@@ -13,4 +13,7 @@ The work is greatly inspired by [this article on serverfault by legolas108](http
 IMPORTANT: Please note that this works only for IP V4 at the moment
 IP V6 is future work
 
+*** PPP Interfaces replace line 76 of client side startbond.sh with:
+    readarray -td " " templine <<< $(ip -br route | grep ${!tunnelInterface} | grep src)
+
 If you are having issues with these scripts (they don't work as expected etc.) then you may join my discord server and chat life with me - please see [THIS VIDEO](https://youtu.be/VouCBt1NTjw) for details
