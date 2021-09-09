@@ -58,31 +58,32 @@ do
     echo "adding routing table vpn${i}"
     echo Tunnel Interface $i is ${!tunnelInterface}
 
-    # let'S comment out the rule in the iproute2 routing table
+    # comment out the rule in the iproute2 routing table
 
     sed -i s/"^#1${i} vpn${i}"/"1${i} vpn${i}"/g /etc/iproute2/rt_tables
 
-    # we need to find the ip address of this interface
+    # find the ip address of this interface
 
     #readarray -d " " -t templine <<< $(ip -br addr | grep $tunnelInterface)
     readarray -td " " templine <<< $(ip -br addr | grep ${!tunnelInterface} | sed  's/ \+/ /g' )
     tunnelInterfaceIP=${templine[2]}
     echo "with IP address ${tunnelInterfaceIP}"
 
-
-
-    # let's read out the default gateway from the main table
-
+    # read default gateway from the main table
+    
     readarray -td " " templine <<< $(ip -br route | grep ${!tunnelInterface} | grep default)
     tunnelInterfaceGW=${templine[2]}8
+    
+    # check if default gateway is a ppp interface and modify it accordingly (bug fix)
+    
     if [[ $tunnelInterfaceGW == ppp* ]]
     then
         readarray -td " " templine <<< $(ip -br route | grep ${!tunnelInterface} | grep src)
         tunnelInterfaceGW=${templine[0]}
     fi
 
-    # now we add a rule for this interface
-
+    # add a rule for this interface
+    
     ip rule add pref 10 from $tunnelInterfaceIP table "vpn$i"
     ip route add default via $tunnelInterfaceGW dev ${!tunnelInterface} table "vpn$i"
     #ip route add 192.168.10.0/24 dev eth1 scope link table dsl1
@@ -103,11 +104,14 @@ echo "###########################################"
 ip route flush cache
 
 # last but not least bring up the bonded interface
+
 ip link set $bondInterface up mtu 1440
 
 # delete all default routes
+
 default_gateway_count=$(ip -br route | grep default | wc -l)
 for i in $(seq $default_gateway_count); do ip route del default; done
 
-#add new default route through bond interface
+# add new default route through bond interface
+
 ip route add default via $remoteBondIP
