@@ -12,24 +12,23 @@
 # include the common settings
 . /etc/openvpn/commonConfig
 
-# load the required module
+# load required module
 
 modprobe bonding
 
-# create the bonding interface
+# create bonding interface
 
 ip link add $bondInterface type bond
 
-# define the bonding mode
+# define bonding mode
 
 echo $bondingMode > /sys/class/net/${bondInterface}/bonding/mode
 
-# assign it the bondIP
+# assign static ip to bonding interface
 
 ip addr add ${bondIP}/24 dev $bondInterface
 
-# now create the tap interfaces and enslave them to 
-# the bond interface
+# create tap interfaces and enslave them to bond interface
 
 for i in `seq 1 $numberOfTunnels`;
 do
@@ -37,16 +36,13 @@ do
     ip link set tap${i} master $bondInterface
 done
 
-# now add the routing tables. bind the tap interfaces
-# to the corresponding ip address of the interface
-
-# How: add the "local" directive in the openvpn config file for 
-# the client. Then we create a routing table for each interface
+# add routing tables, bind the tap interfaces to
+# the corresponding ip address of the interfaces
 
 for i in `seq 1 $numberOfTunnels`;
 do
 
-    # read out the interface name from the config section
+    # read the interface name from the config section
 
     tunnelInterface="tunnelInterface$i"
     configFileName="/etc/openvpn/client/client${i}.conf"
@@ -90,7 +86,7 @@ do
     sed -i /^local.*/d $configFileName
     echo "local $tunnelInterfaceIP" | sed s@/.*@@g >>$configFileName
 
-    # now start openvpn as a daemon
+    # start openvpn as a daemon
 
     openvpn --daemon --config $configFileName
 
