@@ -37,19 +37,16 @@ do
     ip link set tap${i} master $bondInterface
 done
 
-# now add the routing tables
-# we need to do is bind the tap1..tapn interface to 
-# the corresponding 
-# ip address of the interface we want to use.
-# this is done by adding the "local" directive
-# into the openvpn config file for the client
-# then we add a routing table for each interface to avoid usage
-# of the default route
+# now add the routing tables. bind the tap interfaces
+# to the corresponding ip address of the interface
+
+# How: add the "local" directive in the openvpn config file for 
+# the client. Then we create a routing table for each interface
 
 for i in `seq 1 $numberOfTunnels`;
 do
 
-    # first read out the interface name from the config section
+    # read out the interface name from the config section
 
     tunnelInterface="tunnelInterface$i"
     configFileName="/etc/openvpn/client/client${i}.conf"
@@ -88,8 +85,7 @@ do
     ip route add default via $tunnelInterfaceGW dev ${!tunnelInterface} table "vpn$i"
     #ip route add 192.168.10.0/24 dev eth1 scope link table dsl1
 
-    # before we start the VPN connection, we need to make sure that
-    # each connection binds to the right interface
+    # make sure that each connection binds to the right interface
 
     sed -i /^local.*/d $configFileName
     echo "local $tunnelInterfaceIP" | sed s@/.*@@g >>$configFileName
@@ -103,7 +99,7 @@ echo "###########################################"
 
 ip route flush cache
 
-# last but not least bring up the bonded interface
+# bring up the bonded interface
 
 ip link set $bondInterface up mtu 1440
 
